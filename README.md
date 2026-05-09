@@ -446,6 +446,110 @@ dotnet ef migrations remove
 
 ---
 
+### How Search Statistics Work
+
+The application **automatically tracks every search request** and stores detailed statistics in the database for analytics and autocomplete functionality.
+
+#### What Gets Tracked
+
+Every time a user searches for a movie, the following information is recorded:
+
+```csharp
+SearchStatistic
+{
+    Api = MovieApiProvider.Omdb,           // Which API was used (OMDb or TMDb)
+    Query = "batman",                      // Search query entered by user
+    ResultCount = 150,                     // Total number of results found
+    ServedFromCache = true,                // Was the response served from cache?
+    DurationMs = 45,                       // Response time in milliseconds
+    CreatedAtUtc = DateTime.UtcNow         // Timestamp of the search
+}
+```
+
+#### When Statistics Are Saved
+
+Statistics are saved **asynchronously** in the background without blocking the API response:
+
+1. User sends search request
+2. API processes the search (from cache or external API)
+3. Response is returned to the user
+4. **In parallel**, statistics are saved to the database
+
+This ensures **fast response times** while still capturing analytics data.
+
+#### Use Cases
+
+**1. Autocomplete Suggestions**
+
+The autocomplete endpoint uses search statistics to provide smart suggestions:
+
+```sql
+SELECT Query, COUNT(*) as SearchCount
+FROM SearchStatistics
+WHERE Query LIKE 'bat%'
+GROUP BY Query
+ORDER BY SearchCount DESC
+LIMIT 10
+```
+
+Result:
+```json
+["batman", "batman begins", "battle royale"]
+```
+
+**2. Trending Searches**
+
+Track the most popular searches over time:
+
+```sql
+SELECT TOP 10 Query, COUNT(*) as SearchCount
+FROM SearchStatistics
+WHERE CreatedAtUtc >= DATEADD(day, -7, GETUTCDATE())
+GROUP BY Query
+ORDER BY SearchCount DESC
+```
+
+**3. Performance Monitoring**
+
+Analyze cache hit rates and response times:
+
+```sql
+SELECT 
+    Api,
+    AVG(DurationMs) as AvgResponseTime,
+    SUM(CASE WHEN ServedFromCache = 1 THEN 1 ELSE 0 END) * 100.0 / COUNT(*) as CacheHitRate
+FROM SearchStatistics
+GROUP BY Api
+```
+
+**4. API Usage Analytics**
+
+Compare OMDb vs TMDb usage:
+
+```sql
+SELECT 
+    CASE Api 
+        WHEN 1 THEN 'OMDb'
+        WHEN 2 THEN 'TMDb'
+    END as ApiProvider,
+    COUNT(*) as TotalSearches
+FROM SearchStatistics
+GROUP BY Api
+```
+
+#### Example Database Records
+
+| Id | Api | Query | ResultCount | ServedFromCache | DurationMs | CreatedAtUtc |
+|----|-----|-------|-------------|-----------------|------------|--------------|
+| 1 | 1 (OMDb) | batman | 150 | false | 1243 | 2024-05-15 10:30:00 |
+| 2 | 1 (OMDb) | batman | 150 | true | 12 | 2024-05-15 10:35:00 |
+| 3 | 2 (TMDb) | avengers | 89 | false | 987 | 2024-05-15 10:40:00 |
+| 4 | 1 (OMDb) | inception | 5 | false | 856 | 2024-05-15 10:45:00 |
+
+**Notice:** The second "batman" search is much faster (12ms vs 1243ms) because it was served from cache!
+
+---
+
 ## API Documentation
 
 ### Swagger UI
