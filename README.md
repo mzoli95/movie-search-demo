@@ -68,6 +68,7 @@ Store **search statistics** for future analytical purposes.
 ---
 
 ## External APIs
+<img width="1250" height="304" alt="image" src="https://github.com/user-attachments/assets/b60db245-7517-43a6-b40b-c8c90daf09c5" />
 
 ### OMDb (Open Movie Database)
 
@@ -132,6 +133,7 @@ GET /movies/{movieTitle}
 ```http
 GET /movies/batman?api=omdb&page=1&pageSize=10
 ```
+<img width="1235" height="1274" alt="image" src="https://github.com/user-attachments/assets/0e09333c-7891-4fde-9051-5a5b4ca88120" />
 
 **Example Response:**
 ```json
@@ -181,6 +183,7 @@ GET /movies/batman?api=omdb&page=1&pageSize=10
 ```
 GET /movies/autocomplete
 ```
+<img width="1236" height="1095" alt="image" src="https://github.com/user-attachments/assets/ff3af6be-01df-4da3-af4a-3e8e750ec466" />
 
 **Query Parameters:**
 
