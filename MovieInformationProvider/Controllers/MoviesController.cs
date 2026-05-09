@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MovieInformationProvider.DTOs.Movie;
-using MovieInformationProvider.Services.Interfaces;
+using MovieInformationProvider.Application.Movies.DTOs;
+using MovieInformationProvider.Application.Movies.Interfaces;
+using MovieInformationProvider.Application.SearchStatistics.Interfaces;
+using MovieInformationProvider.Domain.Enums;
 
 namespace MovieInformationProvider.Controllers;
 
@@ -9,10 +11,14 @@ namespace MovieInformationProvider.Controllers;
 public class MoviesController : ControllerBase
 {
     private readonly IMovieService _movieService;
+    private readonly ISearchStatisticService _searchStatisticService;
 
-    public MoviesController(IMovieService movieService)
+    public MoviesController(
+        IMovieService movieService,
+        ISearchStatisticService searchStatisticService)
     {
         _movieService = movieService;
+        _searchStatisticService = searchStatisticService;
     }
 
     [HttpGet("{movieTitle}")]
@@ -23,10 +29,15 @@ public class MoviesController : ControllerBase
         [FromQuery] int pageSize = 10,
         CancellationToken cancellationToken = default)
     {
-        var result = await _movieService.SearchMoviesAsync(
+        if (!Enum.TryParse<MovieApiProvider>(api, ignoreCase: true, out var apiProvider))
+        {
+            return BadRequest("Invalid API. Allowed: omdb, tmdb");
+        }
+
+        MovieSearchResponseDto result = await _movieService.SearchMoviesAsync(
             new MovieSearchRequestDto
             {
-                Api = api,
+                Api = apiProvider,
                 MovieTitle = movieTitle,
                 Page = page,
                 PageSize = pageSize
@@ -34,5 +45,24 @@ public class MoviesController : ControllerBase
             cancellationToken);
 
         return Ok(result);
+    }
+
+    [HttpGet("autocomplete")]
+    public async Task<IActionResult> GetAutocomplete(
+        [FromQuery] string query,
+        [FromQuery] int limit = 10,
+        CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(query))
+        {
+            return BadRequest("Query parameter is required");
+        }
+
+        List<string> suggestions = await _searchStatisticService.GetAutocompleteAsync(
+            query,
+            limit,
+            cancellationToken);
+
+        return Ok(suggestions);
     }
 }

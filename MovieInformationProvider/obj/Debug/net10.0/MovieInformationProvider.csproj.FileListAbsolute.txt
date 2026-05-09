@@ -51,7 +51,6 @@ C:\Users\sony9\Desktop\MovieInformationProvider\MovieInformationProvider\bin\Deb
 C:\Users\sony9\Desktop\MovieInformationProvider\MovieInformationProvider\bin\Debug\net10.0\MovieInformationProvider.deps.json
 C:\Users\sony9\Desktop\MovieInformationProvider\MovieInformationProvider\bin\Debug\net10.0\MovieInformationProvider.runtimeconfig.json
 C:\Users\sony9\Desktop\MovieInformationProvider\MovieInformationProvider\bin\Debug\net10.0\MovieInformationProvider.dll
-C:\Users\sony9\Desktop\MovieInformationProvider\MovieInformationProvider\bin\Debug\net10.0\MovieInformationProvider.pdb
 C:\Users\sony9\Desktop\MovieInformationProvider\MovieInformationProvider\bin\Debug\net10.0\Azure.Core.dll
 C:\Users\sony9\Desktop\MovieInformationProvider\MovieInformationProvider\bin\Debug\net10.0\Azure.Identity.dll
 C:\Users\sony9\Desktop\MovieInformationProvider\MovieInformationProvider\bin\Debug\net10.0\Humanizer.dll
@@ -199,6 +198,7 @@ C:\Users\sony9\Desktop\MovieInformationProvider\MovieInformationProvider\obj\Deb
 C:\Users\sony9\Desktop\MovieInformationProvider\MovieInformationProvider\obj\Debug\net10.0\MovieInformationProvider.csproj.CoreCompileInputs.cache
 C:\Users\sony9\Desktop\MovieInformationProvider\MovieInformationProvider\obj\Debug\net10.0\MovieInformationProvider.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\sony9\Desktop\MovieInformationProvider\MovieInformationProvider\obj\Debug\net10.0\MovieInformationProvider.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\sony9\Desktop\MovieInformationProvider\MovieInformationProvider\obj\Debug\net10.0\MovieInformationProvider.sourcelink.json
 C:\Users\sony9\Desktop\MovieInformationProvider\MovieInformationProvider\obj\Debug\net10.0\rjimswa.dswa.cache.json
 C:\Users\sony9\Desktop\MovieInformationProvider\MovieInformationProvider\obj\Debug\net10.0\rjsmrazor.dswa.cache.json
 C:\Users\sony9\Desktop\MovieInformationProvider\MovieInformationProvider\obj\Debug\net10.0\rjsmcshtml.dswa.cache.json
@@ -213,5 +213,3 @@ C:\Users\sony9\Desktop\MovieInformationProvider\MovieInformationProvider\obj\Deb
 C:\Users\sony9\Desktop\MovieInformationProvider\MovieInformationProvider\obj\Debug\net10.0\refint\MovieInformationProvider.dll
 C:\Users\sony9\Desktop\MovieInformationProvider\MovieInformationProvider\obj\Debug\net10.0\MovieInformationProvider.pdb
 C:\Users\sony9\Desktop\MovieInformationProvider\MovieInformationProvider\obj\Debug\net10.0\MovieInformationProvider.genruntimeconfig.cache
-C:\Users\sony9\Desktop\MovieInformationProvider\MovieInformationProvider\obj\Debug\net10.0\ref\MovieInformationProvider.dll
-C:\Users\sony9\Desktop\MovieInformationProvider\MovieInformationProvider\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
